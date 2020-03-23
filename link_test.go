@@ -55,9 +55,32 @@ func resetTestLinkEthernetSwitchLab2(t *testing.T) (*Project, *Node, *Node, *Lin
 	return p, n1, n2, l
 }
 
-func TestNodeEthernetSwitchLinkCreate(t *testing.T) {
-	p, n1, n2 := resetTestLinkEthernetSwitchLab(t)
+func resetTestLinkVpcsLab(t *testing.T) (*Project, *Node, *Node) {
+	p := resetTestProject(t)
+	n1 := &Node{
+		ComputeID: "local",
+		Name:      "PC1",
+		NodeType:  "vpcs",
+		Project:   p,
+		X:         0,
+	}
 
+	n1.Create()
+
+	n2 := &Node{
+		ComputeID: "local",
+		Name:      "PC2",
+		NodeType:  "vpcs",
+		Project:   p,
+		X:         100,
+	}
+
+	n2.Create()
+
+	return p, n1, n2
+}
+
+func createAndTestLink(t *testing.T, p *Project, n1 *Node, n2 *Node) {
 	l := Link{
 		Project: p,
 		Nodes: []LinkNode{
@@ -93,7 +116,12 @@ func TestNodeEthernetSwitchLinkCreate(t *testing.T) {
 	if l.Suspend != false {
 		t.Error("This link seems to be misconfigured (suspend != false)")
 	}
+}
 
+func TestNodeEthernetSwitchLinkCreate(t *testing.T) {
+	p, n1, n2 := resetTestLinkEthernetSwitchLab(t)
+
+	createAndTestLink(t, p, n1, n2)
 }
 
 func TestNodeCreateEthernetSwitchLinkError(t *testing.T) {
@@ -246,4 +274,10 @@ func TestNodeEthernetSwitchLinkDeleteError(t *testing.T) {
 			t.Error(e)
 		}
 	}
+}
+
+func TestNodeVpcsLinkCreate(t *testing.T) {
+	p, n1, n2 := resetTestLinkVpcsLab(t)
+
+	createAndTestLink(t, p, n1, n2)
 }

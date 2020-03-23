@@ -34,7 +34,7 @@ Location of this test server is provided via these 2 environment variables:
 | `GNS3_HOST`               | The IP address or FQDN of the GNS3 test server | 172.16.213.128 |
 | `GNS3_PORT`               | The TCP port number of the GNS3 test server    |       3080     |
 
-You then need to perform a `go test -v` in the `pkg` subdirectory.
+You then simply need to perform a `go test -v`.
 
 ## Limitations
 
@@ -42,6 +42,7 @@ In this version, all [CRUD operations](https://en.wikipedia.org/wiki/Create,_rea
 - projects
 - nodes:
     * EthernetSwitch
+    * VPCS
 - links
 
 ## Contributing

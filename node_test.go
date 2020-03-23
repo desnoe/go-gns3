@@ -15,12 +15,31 @@ func resetTestNodeEthernetSwitch(t *testing.T) *Node {
 	err := n.Create()
 
 	if err != nil {
-		t.Error("Could not create a new node")
+		t.Error("Could not create a new Ethernet Switch node")
 		t.Error(err)
 	}
 
 	return &n
 }
+
+func resetTestNodeVpcs(t *testing.T) *Node {
+	n := Node{
+		ComputeID: "local",
+		Name:      "PC1",
+		NodeType:  "vpcs",
+		Project:   resetTestProject(t),
+	}
+
+	err := n.Create()
+
+	if err != nil {
+		t.Error("Could not create a new VPCS node")
+		t.Error(err)
+	}
+
+	return &n
+}
+
 
 func TestNodeEthernetSwitchCreate(t *testing.T) {
 	n := Node{
@@ -321,3 +340,73 @@ func TestNodeEthernetSwitchDeleteError(t *testing.T) {
 		}
 	}
 }
+
+func TestNodeVpcsCreate(t *testing.T) {
+	n := Node{
+		ComputeID:       "local",
+		ConsoleType:     "telnet",
+		FirstPortName:   "eth0",
+		Name:            "PC1",
+		NodeType:        "vpcs",
+		PortNameFormat:  "eth{port0}",
+		PortSegmentSize: 0,
+		Project:         resetTestProject(t),
+		Symbol:          ":/symbols/vpcs_guest.svg",
+		X:               100,
+		Y:               100,
+		Z:               1,
+	}
+
+	err := n.Create()
+
+	if err != nil {
+		t.Error("Could not create a new node")
+		t.Error(err)
+	}
+	n.Read()
+	if n.ComputeID != "local" {
+		t.Error("This node seems to be misconfigured (copute_id != local)")
+	}
+	if n.ConsoleType != "telnet" {
+		t.Error("This node seems to be misconfigured (console_type != telnet)")
+	}
+	if n.FirstPortName != "eth0" {
+		t.Error("This node seems to be misconfigured (first_port_name != eth0)")
+	}
+	if n.Name != "PC1" {
+		t.Error("This node seems to be misconfigured (name != PC1)")
+	}
+	if n.NodeType != "vpcs" {
+		t.Error("This node seems to be misconfigured (node_type != vpcs)")
+	}
+	if n.PortNameFormat != "eth{port0}" {
+		t.Error("This node seems to be misconfigured (port_name_format != eth{port0})")
+	}
+	if n.PortSegmentSize != 0 {
+		t.Error("This node seems to be misconfigured (port_segment_size != 0)")
+	}
+	if n.Symbol != ":/symbols/vpcs_guest.svg" {
+		t.Error("This node seems to be misconfigured (symbol != :/symbols/vpcs_guest.svg)")
+	}
+	if n.X != 100 {
+		t.Error("This node seems to be misconfigured (X != 100)")
+	}
+	if n.Y != 100 {
+		t.Error("This node seems to be misconfigured (Y != 100)")
+	}
+	if n.Z != 1 {
+		t.Error("This node seems to be misconfigured (Z != 1)")
+	}
+}
+
+func TestNodeVpcsDelete(t *testing.T) {
+	n := *resetTestNodeVpcs(t)
+	// clear the UUID to make sure a Read is automatically performed before
+	n.UUID = ""
+
+	if err := n.Delete(); err != nil {
+		t.Error("Could not delete an existing node")
+		t.Error(err)
+	}
+}
+
