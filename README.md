@@ -43,6 +43,7 @@ In this version, all [CRUD operations](https://en.wikipedia.org/wiki/Create,_rea
 - nodes:
     * EthernetSwitch
     * VPCS
+    * QEMU
 - links
 
 ## Contributing

@@ -55,6 +55,39 @@ func resetTestLinkEthernetSwitchLab2(t *testing.T) (*Project, *Node, *Node, *Lin
 	return p, n1, n2, l
 }
 
+func resetTestLinkQemuLab(t *testing.T) (*Project, *Node, *Node) {
+	p := resetTestProject(t)
+	n1 := &Node{
+		ComputeID: "local",
+		Name:      "VM1",
+		NodeType:  "qemu",
+		Properties: NodeProperties{
+			Adapters: 4,
+			Platform: "x86_64",
+		},
+		Project: p,
+		X:       0,
+	}
+
+	n1.Create()
+
+	n2 := &Node{
+		ComputeID: "local",
+		Name:      "VM2",
+		NodeType:  "qemu",
+		Properties: NodeProperties{
+			Adapters: 4,
+			Platform: "x86_64",
+		},
+		Project: p,
+		X:       100,
+	}
+
+	n2.Create()
+
+	return p, n1, n2
+}
+
 func resetTestLinkVpcsLab(t *testing.T) (*Project, *Node, *Node) {
 	p := resetTestProject(t)
 	n1 := &Node{
@@ -274,6 +307,12 @@ func TestNodeEthernetSwitchLinkDeleteError(t *testing.T) {
 			t.Error(e)
 		}
 	}
+}
+
+func TestNodeQemuLinkCreate(t *testing.T) {
+	p, n1, n2 := resetTestLinkQemuLab(t)
+
+	createAndTestLink(t, p, n1, n2)
 }
 
 func TestNodeVpcsLinkCreate(t *testing.T) {
