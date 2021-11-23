@@ -437,7 +437,6 @@ func TestNodeQemuPropertiesUpdate(t *testing.T) {
 	n := *resetTestNodeQemu(t)
 
 	n.Properties = NodeProperties{
-		AcpiShutdown:      true,
 		AdapterType:       "virtio",
 		Adapters:          4,
 		BootPriority:      "cd",
@@ -459,9 +458,6 @@ func TestNodeQemuPropertiesUpdate(t *testing.T) {
 	n.Read()
 	if err != nil {
 		t.Error("Could not update an existing node")
-	}
-	if n.Properties.AcpiShutdown != true {
-		t.Error("This node property seems to be misconfigured (acpi_shutdown != true)")
 	}
 	if n.Properties.AdapterType != "virtio" {
 		t.Error("This node property seems to be misconfigured (adapter_type != virtio)")
