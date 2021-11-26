@@ -20,7 +20,6 @@ type Label struct {
 // with bool type as missing value does not mean false for the GNS3 server API.
 type NodeProperties struct {
 	nodeType           string
-	AcpiShutdown       bool                       `json:"acpi_shutdown"`
 	AdapterType        string                     `json:"adapter_type"`
 	Adapters           int                        `json:"adapters"`
 	BiosImage          string                     `json:"bios_image"`
@@ -60,7 +59,6 @@ type NodeProperties struct {
 
 type nodeEthernetSwitchProperties struct {
 	nodeType           string
-	AcpiShutdown       bool                       `json:"-"`
 	AdapterType        string                     `json:"-"`
 	Adapters           int                        `json:"-"`
 	BiosImage          string                     `json:"-"`
@@ -100,7 +98,6 @@ type nodeEthernetSwitchProperties struct {
 
 type nodeQemuProperties struct {
 	nodeType           string
-	AcpiShutdown       bool                       `json:"acpi_shutdown,omitempty"`
 	AdapterType        string                     `json:"adapter_type,omitempty"`
 	Adapters           int                        `json:"adapters,omitempty"`
 	BiosImage          string                     `json:"bios_image,omitempty"`
@@ -140,7 +137,6 @@ type nodeQemuProperties struct {
 
 type nodeVpcsProperties struct {
 	nodeType           string
-	AcpiShutdown       bool                       `json:"-"`
 	AdapterType        string                     `json:"-"`
 	Adapters           int                        `json:"-"`
 	BiosImage          string                     `json:"-"`
